@@ -49,6 +49,8 @@ namespace TorchFireFilms.Identity
             // TODO: Remove from production
             builder.AddDeveloperSigningCredential();
 
+            services.AddSingleton<IConnectionService, ConnectionService>();
+
             services.AddRazorPages();
         }
 

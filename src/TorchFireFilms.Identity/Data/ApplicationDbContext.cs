@@ -1,15 +1,34 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.NameTranslation;
 
 namespace TorchFireFilms.Identity.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,
+            ApplicationRole,
+            int,
+            ApplicationUserClaim,
+            ApplicationUserRole,
+            IdentityUserLogin<int>,
+            ApplicationRoleClaim,
+            IdentityUserToken<int>>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        private readonly IConnectionService _connectionService;
+
+        public ApplicationDbContext(
+            DbContextOptions<ApplicationDbContext> options,
+            IConnectionService connectionService)
             : base(options)
         {
+            _connectionService = connectionService;
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder builder)
+        {
+            builder.UseNpgsql(_connectionService.GetDefaultConnectionString());
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -24,6 +24,9 @@ namespace TorchFireFilms.Identity
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            var config = new IdentityServerConfiguration();
+            Configuration.Bind("IdentityServerConfiguration", config);
+
             var builder = services.AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
@@ -34,9 +37,9 @@ namespace TorchFireFilms.Identity
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
             });
-            builder.AddInMemoryIdentityResources(Config.IdentityResources);
-            builder.AddInMemoryApiScopes(Config.ApiScopes);
-            builder.AddInMemoryClients(Config.Clients);
+            builder.AddInMemoryIdentityResources(config.IdentityResources);
+            builder.AddInMemoryApiScopes(config.ApiScopes);
+            builder.AddInMemoryClients(config.Clients);
             builder.AddAspNetIdentity<ApplicationUser>();
 
             // TODO: Remove from production

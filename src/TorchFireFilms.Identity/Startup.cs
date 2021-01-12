@@ -4,6 +4,7 @@ using TorchFireFilms.Identity.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using IdentityServer4.Services;
 
 namespace TorchFireFilms.Identity
 {
@@ -41,11 +42,13 @@ namespace TorchFireFilms.Identity
             builder.AddInMemoryApiScopes(config.ApiScopes);
             builder.AddInMemoryClients(config.Clients);
             builder.AddAspNetIdentity<ApplicationUser>();
+            builder.AddProfileService<CustomProfileService>();
 
             // TODO: Remove from production
             builder.AddDeveloperSigningCredential();
 
             services.AddSingleton<IConnectionService, ConnectionService>();
+            services.AddTransient<IProfileService, CustomProfileService>();
 
             services.AddRazorPages();
         }

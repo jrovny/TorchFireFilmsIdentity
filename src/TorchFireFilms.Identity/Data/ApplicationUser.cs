@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TorchFireFilms.Identity.Data
 {
+    // Test
     public class ApplicationUser : IdentityUser<int>
     {
         [PersonalData]

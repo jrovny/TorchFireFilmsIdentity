@@ -4,10 +4,10 @@ EXPOSE 5001
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["src/TorchFireFilms.Identity/TorchFireFilms.Identity.csproj", "src/TorchFireFilms.Identity/"]
-RUN dotnet restore "src/TorchFireFilms.Identity/TorchFireFilms.Identity.csproj"
+COPY ["./TorchFireFilms.Identity.csproj", "src/"]
+RUN dotnet restore "src/TorchFireFilms.Identity.csproj"
 COPY . .
-WORKDIR "/src/src/TorchFireFilms.Identity"
+WORKDIR "/src"
 RUN dotnet build "TorchFireFilms.Identity.csproj" -c Release -o /app/build
 
 FROM build AS publish

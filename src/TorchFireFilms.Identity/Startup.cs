@@ -22,6 +22,7 @@ namespace TorchFireFilms.Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureNonBreakingSameSiteCookies();
             services.AddDbContext<ApplicationDbContext>();
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -37,24 +38,24 @@ namespace TorchFireFilms.Identity
             var config = new IdentityServerConfiguration();
             Configuration.Bind("IdentityServerConfiguration", config);
 
-            // var builder = services.AddIdentityServer(options =>
-            // {
-            //     options.Events.RaiseErrorEvents = true;
-            //     options.Events.RaiseInformationEvents = true;
-            //     options.Events.RaiseFailureEvents = true;
-            //     options.Events.RaiseSuccessEvents = true;
+            var builder = services.AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
 
-            //     // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
-            //     options.EmitStaticAudienceClaim = true;
-            // });
-            // builder.AddInMemoryIdentityResources(config.IdentityResources);
-            // builder.AddInMemoryApiScopes(config.ApiScopes);
-            // builder.AddInMemoryClients(config.Clients);
-            // builder.AddAspNetIdentity<ApplicationUser>();
-            // builder.AddProfileService<CustomProfileService>();
+                // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+                options.EmitStaticAudienceClaim = true;
+            });
+            builder.AddInMemoryIdentityResources(config.IdentityResources);
+            builder.AddInMemoryApiScopes(config.ApiScopes);
+            builder.AddInMemoryClients(config.Clients);
+            builder.AddAspNetIdentity<ApplicationUser>();
+            builder.AddProfileService<CustomProfileService>();
 
-            // // TODO: Remove from production
-            // builder.AddDeveloperSigningCredential();
+            // TODO: Remove from production
+            builder.AddDeveloperSigningCredential();
             // builder.Services.ConfigureApplicationCookie(options =>
             // {
             //     options.Cookie.IsEssential = true;
@@ -70,6 +71,7 @@ namespace TorchFireFilms.Identity
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCookiePolicy();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -85,7 +87,7 @@ namespace TorchFireFilms.Identity
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            // app.UseIdentityServer();
+            app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
 

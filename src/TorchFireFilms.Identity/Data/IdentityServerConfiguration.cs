@@ -11,6 +11,6 @@ namespace TorchFireFilms.Identity.Data
         public IEnumerable<IdentityResource> IdentityResources { get; set; }
         public IEnumerable<ApiScope> ApiScopes { get; set; }
         public IEnumerable<Client> Clients { get; set; }
-
+        public string X509CertificatePath { get; set; }
     }
 }

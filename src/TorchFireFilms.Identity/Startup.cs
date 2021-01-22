@@ -11,9 +11,12 @@ namespace TorchFireFilms.Identity
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -52,7 +55,10 @@ namespace TorchFireFilms.Identity
             builder.AddProfileService<CustomProfileService>();
 
             // TODO: Remove from production
-            builder.AddDeveloperSigningCredential();
+            if (_env.IsDevelopment())
+                builder.AddDeveloperSigningCredential();
+            else
+                builder.AddSigningCredential(X509CertificateManager.GetX509Certificate2(config.X509CertificatePath));
 
             services.AddSingleton<IConnectionService, ConnectionService>();
             services.AddTransient<IProfileService, CustomProfileService>();
@@ -60,11 +66,11 @@ namespace TorchFireFilms.Identity
             services.AddRazorPages();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseCookiePolicy();
             app.UseForwardedHeaders();
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();

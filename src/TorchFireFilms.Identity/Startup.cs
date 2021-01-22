@@ -62,11 +62,11 @@ namespace TorchFireFilms.Identity
             //     options.Cookie.SameSite = (SameSiteMode)(-1);
             // });
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+            // services.Configure<CookiePolicyOptions>(options =>
+            // {
+            //     options.MinimumSameSitePolicy = SameSiteMode.Strict;
 
-            });
+            // });
 
             // services.AddAuthentication("MyCookie")
             //     .AddCookie("MyCookie", options =>

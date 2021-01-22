@@ -31,40 +31,51 @@ namespace TorchFireFilms.Identity.Areas.Identity.Pages.Account
             _interaction = interaction;
         }
 
-        public async Task<IActionResult> OnGet(string logoutId = null)
+        public void OnGet(string logoutId = null)
         {
-            return await this.OnPost(null, logoutId);
+            // return await this.OnPost(null, logoutId);
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null, string logoutId = null)
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-
-            // var logoutId = this.Request.Query["logoutId"].ToString();
-
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
-            }
-            else if (logoutId != null)
-            {
-                var logoutContext = await this._interaction.GetLogoutContextAsync(logoutId);
-                returnUrl = logoutContext.PostLogoutRedirectUri;
-
-                if (!string.IsNullOrEmpty(returnUrl))
-                {
-                    return this.Redirect(returnUrl);
-                }
-                else
-                {
-                    return Page();
-                }
             }
             else
             {
                 return RedirectToPage();
             }
+
+            // await _signInManager.SignOutAsync();
+            // _logger.LogInformation("User logged out.");
+
+            // // var logoutId = this.Request.Query["logoutId"].ToString();
+
+            // if (returnUrl != null)
+            // {
+            //     return LocalRedirect(returnUrl);
+            // }
+            // else if (logoutId != null)
+            // {
+            //     var logoutContext = await this._interaction.GetLogoutContextAsync(logoutId);
+            //     returnUrl = logoutContext.PostLogoutRedirectUri;
+
+            //     if (!string.IsNullOrEmpty(returnUrl))
+            //     {
+            //         return this.Redirect(returnUrl);
+            //     }
+            //     else
+            //     {
+            //         return Page();
+            //     }
+            // }
+            // else
+            // {
+            //     return RedirectToPage();
+            // }
         }
     }
 }

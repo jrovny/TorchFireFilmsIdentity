@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Http;
 
 namespace TorchFireFilms.Identity
 {
@@ -18,8 +17,6 @@ namespace TorchFireFilms.Identity
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureNonBreakingSameSiteCookies();
@@ -56,24 +53,6 @@ namespace TorchFireFilms.Identity
 
             // TODO: Remove from production
             builder.AddDeveloperSigningCredential();
-            // builder.Services.ConfigureApplicationCookie(options =>
-            // {
-            //     options.Cookie.IsEssential = true;
-            //     options.Cookie.SameSite = (SameSiteMode)(-1);
-            // });
-
-            // services.Configure<CookiePolicyOptions>(options =>
-            // {
-            //     options.MinimumSameSitePolicy = SameSiteMode.Strict;
-
-            // });
-
-            // services.AddAuthentication("MyCookie")
-            //     .AddCookie("MyCookie", options =>
-            //     {
-            //         options.Cookie.SameSite = SameSiteMode.None;
-            //         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            //     });
 
             services.AddSingleton<IConnectionService, ConnectionService>();
             services.AddTransient<IProfileService, CustomProfileService>();
@@ -81,7 +60,6 @@ namespace TorchFireFilms.Identity
             services.AddRazorPages();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCookiePolicy();
@@ -94,7 +72,6 @@ namespace TorchFireFilms.Identity
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

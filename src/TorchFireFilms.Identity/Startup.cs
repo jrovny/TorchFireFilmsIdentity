@@ -85,6 +85,7 @@ namespace TorchFireFilms.Identity
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCookiePolicy();
+            app.UseForwardedHeaders();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

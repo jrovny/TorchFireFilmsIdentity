@@ -50,6 +50,7 @@ namespace TorchFireFilms.Identity
             });
             builder.AddInMemoryIdentityResources(config.IdentityResources);
             builder.AddInMemoryApiScopes(config.ApiScopes);
+            builder.AddInMemoryApiResources(config.ApiResources);
             builder.AddInMemoryClients(config.Clients);
             builder.AddAspNetIdentity<ApplicationUser>();
             builder.AddProfileService<CustomProfileService>();

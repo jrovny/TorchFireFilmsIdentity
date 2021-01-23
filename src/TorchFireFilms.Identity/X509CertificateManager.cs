@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using Serilog;
 
 namespace TorchFireFilms.Identity
 {
@@ -9,6 +10,7 @@ namespace TorchFireFilms.Identity
         {
             if (string.IsNullOrWhiteSpace(x509CertificatePath))
                 throw new ArgumentNullException(nameof(x509CertificatePath));
+            Log.Information($"Looking for cert in '{x509CertificatePath}'");
 
             using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser, OpenFlags.ReadWrite))
             {
@@ -17,6 +19,8 @@ namespace TorchFireFilms.Identity
                 var certs = store.Certificates.Find(X509FindType.FindByTimeValid, DateTime.Now, false);
                 if (certs.Count == 0)
                     return null;
+
+                Log.Information($"Found and returning cert with thumbprint {certs[0].Thumbprint}");
 
                 return certs[0];
             }

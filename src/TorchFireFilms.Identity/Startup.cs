@@ -54,7 +54,6 @@ namespace TorchFireFilms.Identity
             builder.AddAspNetIdentity<ApplicationUser>();
             builder.AddProfileService<CustomProfileService>();
 
-            // TODO: Remove from production
             if (_env.IsDevelopment())
                 builder.AddDeveloperSigningCredential();
             else

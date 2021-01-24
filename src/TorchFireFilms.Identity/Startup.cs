@@ -24,7 +24,7 @@ namespace TorchFireFilms.Identity
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureNonBreakingSameSiteCookies();
+            // services.ConfigureNonBreakingSameSiteCookies();
             services.AddDbContext<ApplicationDbContext>();
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -80,7 +80,7 @@ namespace TorchFireFilms.Identity
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseCookiePolicy();
+            // app.UseCookiePolicy();
             app.UseForwardedHeaders();
             if (_env.IsDevelopment())
             {

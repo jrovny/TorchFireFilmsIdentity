@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.HttpOverrides;
+using Serilog;
 
 namespace TorchFireFilms.Identity
 {
@@ -85,6 +86,7 @@ namespace TorchFireFilms.Identity
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseSerilogRequestLogging();
             app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();

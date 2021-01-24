@@ -59,8 +59,11 @@ namespace TorchFireFilms.Identity
             if (_env.IsDevelopment())
                 builder.AddDeveloperSigningCredential();
             else
+            {
+                var certManager = new X509CertificateManager();
                 builder.AddSigningCredential(
-                    X509CertificateManager.GetX509Certificate2(Configuration["X509CertificatePath"]));
+                    certManager.GetX509Certificate2(Configuration["X509CertificatePath"]));
+            }
 
             services.AddSingleton<IConnectionService, ConnectionService>();
             services.AddTransient<IProfileService, CustomProfileService>();

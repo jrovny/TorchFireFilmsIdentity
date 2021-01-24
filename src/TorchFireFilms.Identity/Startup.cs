@@ -63,6 +63,13 @@ namespace TorchFireFilms.Identity
                 builder.AddSigningCredential(
                     X509CertificateManager.GetX509Certificate2(Configuration["X509CertificatePath"]));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "SiteCorsPolicy", builder =>
+                {
+                    builder.WithOrigins("https://localhost:5010,https://test.torchfirefilms.com");
+                });
+            });
             services.AddSingleton<IConnectionService, ConnectionService>();
             services.AddTransient<IProfileService, CustomProfileService>();
 
@@ -87,6 +94,7 @@ namespace TorchFireFilms.Identity
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseCors("SiteCorsPolicy");
             app.UseSerilogRequestLogging();
             app.UseIdentityServer();
             app.UseAuthentication();

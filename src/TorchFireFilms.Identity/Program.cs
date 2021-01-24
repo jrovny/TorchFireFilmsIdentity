@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
 using Serilog.Formatting.Json;
 
 namespace TorchFireFilms.Identity
@@ -32,7 +33,7 @@ namespace TorchFireFilms.Identity
                     logger.Enrich.FromLogContext();
                     if (isDevelopment)
                         logger.WriteTo.Console();
-                    logger.WriteTo.File(new JsonFormatter(),
+                    logger.WriteTo.File(new RenderedCompactJsonFormatter(),
                         isDevelopment ? @".\log\log-.txt" : @"./log/log-.txt",
                         rollingInterval: RollingInterval.Day,
                         retainedFileCountLimit: null,

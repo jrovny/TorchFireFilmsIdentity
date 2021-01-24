@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace TorchFireFilms.Identity
 {
@@ -59,11 +60,8 @@ namespace TorchFireFilms.Identity
             if (_env.IsDevelopment())
                 builder.AddDeveloperSigningCredential();
             else
-            {
-                var certManager = new X509CertificateManager();
                 builder.AddSigningCredential(
-                    certManager.GetX509Certificate2(Configuration["X509CertificatePath"]));
-            }
+                    X509CertificateManager.GetX509Certificate2(Configuration["X509CertificatePath"]));
 
             services.AddSingleton<IConnectionService, ConnectionService>();
             services.AddTransient<IProfileService, CustomProfileService>();

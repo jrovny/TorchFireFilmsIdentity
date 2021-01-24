@@ -21,6 +21,10 @@ namespace TorchFireFilms.Identity
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                })
                 .UseSerilog((context, logger) =>
                 {
                     var isDevelopment = context.HostingEnvironment.IsDevelopment();
@@ -33,10 +37,6 @@ namespace TorchFireFilms.Identity
                         rollingInterval: RollingInterval.Day,
                         retainedFileCountLimit: null,
                         rollOnFileSizeLimit: true);
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
                 });
     }
 }

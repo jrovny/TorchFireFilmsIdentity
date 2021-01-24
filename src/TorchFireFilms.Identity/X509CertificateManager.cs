@@ -11,7 +11,7 @@ namespace TorchFireFilms.Identity
         {
             if (string.IsNullOrWhiteSpace(x509CertificatePath))
                 throw new ArgumentNullException(nameof(x509CertificatePath));
-            _log.Information($"Looking for cert in '{x509CertificatePath}'");
+            Log.Information($"Looking for cert in '{x509CertificatePath}'");
 
             using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser, OpenFlags.ReadWrite))
             {
@@ -21,7 +21,7 @@ namespace TorchFireFilms.Identity
                 if (certs.Count == 0)
                     return null;
 
-                _log.Information($"Found and returning cert with thumbprint {certs[0].Thumbprint}");
+                Log.Information($"Found and returning cert with thumbprint {certs[0].Thumbprint}");
 
                 return certs[0];
             }

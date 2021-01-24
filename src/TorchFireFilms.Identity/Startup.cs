@@ -67,7 +67,9 @@ namespace TorchFireFilms.Identity
             {
                 options.AddPolicy(name: "SiteCorsPolicy", builder =>
                 {
-                    builder.WithOrigins("https://localhost:5010,https://test.torchfirefilms.com");
+                    builder.WithOrigins("https://localhost:5010", "https://test.torchfirefilms.com")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
             services.AddSingleton<IConnectionService, ConnectionService>();
